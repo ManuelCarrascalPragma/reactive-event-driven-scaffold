@@ -202,7 +202,3 @@ docker logs postgres-shieldflow
 docker ps | grep kafka
 docker exec -it deployment-kafka-1 kafka-topics --list --bootstrap-server localhost:9092
 ```
-
-## 📄 Licencia
-
-MIT License
