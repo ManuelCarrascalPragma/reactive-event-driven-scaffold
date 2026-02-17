@@ -48,19 +48,6 @@ docker exec -it postgres-fraudanalyzer psql -U postgres -d fraudanalyzer_db
 ```bash
 docker exec -it deployment-kafka-1 kafka-topics --list --bootstrap-server localhost:9092
 ```
-
-### Jaeger UI
-```
-http://localhost:16686
-```
-
-## 🧪 Validar Observabilidad
-
-```bash
-# Desde la raíz del proyecto
-./validate-observability.sh
-```
-
 ## 🛑 Detener Servicios
 
 ```bash
@@ -119,20 +106,6 @@ docker logs deployment-kafka-1
 # Reiniciar
 docker-compose restart kafka
 ```
-
-### Jaeger no muestra trazas
-
-```bash
-# Verificar que está corriendo
-docker ps | grep jaeger
-
-# Ver logs
-docker logs jaeger
-
-# Verificar endpoint
-curl http://localhost:4318/v1/traces
-```
-
 ## 📄 Licencia
 
 MIT License
