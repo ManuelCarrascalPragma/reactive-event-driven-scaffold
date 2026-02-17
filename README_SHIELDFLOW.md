@@ -136,7 +136,7 @@ curl -X POST http://localhost:8080/api/transactions \
 
 ShieldFlow publica eventos al topic `shieldflow.transaction.received` que son consumidos por **FraudAnalyzer** para análisis de fraude.
 
-**Repositorio FraudAnalyzer:** [Link al repo]
+**Repositorio FraudAnalyzer:** [[Link al repo](https://github.com/ManuelCarrascalPragma/fraudAnalyzer-repository)]
 
 **Topic Kafka:**
 - **Produce:** `shieldflow.transaction.received`
