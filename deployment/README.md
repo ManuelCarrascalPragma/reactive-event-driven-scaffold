@@ -106,10 +106,6 @@ docker logs deployment-kafka-1
 # Reiniciar
 docker-compose restart kafka
 ```
-## 📄 Licencia
-
-MIT License
-
 - **Usuario**: `postgres`
 - **Password**: `postgres`
 
