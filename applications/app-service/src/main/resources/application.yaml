@@ -3,11 +3,23 @@ server:
 
 spring:
   application:
-    name: "shieldFlow"
-  h2:
-    console:
-      enabled: true
-      path: "/h2"
+    name: "shield-flow"
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5434/shieldflow_db
+    username: postgres
+    password: postgres
+  sql:
+    init:
+      mode: never
+
+adapters:
+  r2dbc:
+    host: localhost
+    port: 5434
+    database: shieldflow_db
+    schema: public
+    username: postgres
+    password: postgres
 
 reactive:
   commons:
@@ -27,11 +39,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,prometheus"
+        include: "health,info,metrics,prometheus"
   endpoint:
     health:
       probes:
         enabled: true
+
+logging:
+  level:
+    reactor.kafka: DEBUG
 
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"

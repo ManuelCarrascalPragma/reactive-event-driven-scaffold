@@ -6,6 +6,32 @@ Empezaremos por explicar los diferentes componentes del proyectos y partiremos d
 
 Lee el artículo [Clean Architecture — Aislando los detalles](https://medium.com/bancolombia-tech/clean-architecture-aislando-los-detalles-4f9530f35d7a)
 
+## Requisitos Previos
+
+### Infraestructura Local
+
+Antes de ejecutar la aplicación, debes levantar la infraestructura necesaria (Kafka y PostgreSQL):
+
+```bash
+cd deployment
+docker compose up -d
+```
+
+Esto levantará:
+- **Kafka** en `localhost:9092`
+- **PostgreSQL ShieldFlow** en `localhost:5432` (base de datos: `shieldflow_db`)
+- **PostgreSQL FraudAnalyzer** en `localhost:5433` (base de datos: `fraudanalyzer_db`)
+
+Las tablas se crean automáticamente al iniciar los contenedores.
+
+### Ejecutar la aplicación
+
+```bash
+./gradlew bootRun
+```
+
+La aplicación estará disponible en `http://localhost:8080`
+
 # Arquitectura
 
 ![Clean Architecture](https://miro.medium.com/max/1400/1*ZdlHz8B0-qu9Y-QO3AXR_w.png)

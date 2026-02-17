@@ -16,10 +16,17 @@ rootProject.name = 'shieldFlow'
 include ':app-service'
 include ':model'
 include ':usecase'
+include ':reactive-web'
+include ':scheduler'
+include ':async-event-handler'
+include ':async-event-bus'
+include ':r2dbc-postgresql'
+
 project(':app-service').projectDir = file('./applications/app-service')
 project(':model').projectDir = file('./domain/model')
 project(':usecase').projectDir = file('./domain/usecase')
-include ':reactive-web'
 project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
-include ':async-event-bus'
+project(':scheduler').projectDir = file('./infrastructure/entry-points/scheduler')
+project(':async-event-handler').projectDir = file('./infrastructure/entry-points/async-event-handler')
 project(':async-event-bus').projectDir = file('./infrastructure/driven-adapters/async-event-bus')
+project(':r2dbc-postgresql').projectDir = file('./infrastructure/driven-adapters/r2dbc-postgresql')

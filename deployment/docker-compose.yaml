@@ -1,6 +1,32 @@
 version: '3.8'
 
 services:
+  postgres-shieldflow:
+    image: postgres:15-alpine
+    container_name: postgres-shieldflow
+    environment:
+      POSTGRES_DB: shieldflow_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-shieldflow-data:/var/lib/postgresql/data
+      - ../applications/app-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  postgres-fraudanalyzer:
+    image: postgres:15-alpine
+    container_name: postgres-fraudanalyzer
+    environment:
+      POSTGRES_DB: fraudanalyzer_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-fraudanalyzer-data:/var/lib/postgresql/data
+      - ../../fraudAnalyzer/applications/app-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
     environment:
@@ -24,3 +50,37 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.4.0
+    depends_on:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      echo 'Esperando a que Kafka esté listo...'
+      sleep 10
+      
+      echo 'Creando topics...'
+      kafka-topics --create --if-not-exists --topic shieldflow.transaction.received --bootstrap-server kafka:29092 --partitions 1 --replication-factor 1
+      kafka-topics --create --if-not-exists --topic fraudanalyzer.result --bootstrap-server kafka:29092 --partitions 1 --replication-factor 1
+      
+      echo 'Topics creados exitosamente'
+      kafka-topics --list --bootstrap-server kafka:29092
+      "
+    restart: "no"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "4318:4318"    # OTLP HTTP receiver
+      - "4317:4317"    # OTLP gRPC receiver (opcional)
+    restart: unless-stopped
+
+volumes:
+  postgres-shieldflow-data:
+  postgres-fraudanalyzer-data:
